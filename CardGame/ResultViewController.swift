@@ -1,29 +1,36 @@
-//
-//  ResultViewController.swift
-//  CardGame
-//
-//  Created by Talya Benatar on 14/06/2026.
-//
-
 import UIKit
 
 class ResultViewController: UIViewController {
 
+    @IBOutlet weak var winnerLabel: UILabel!
+    @IBOutlet weak var scoreLabel: UILabel!
+    
+    var playerName = ""
+    var playerScore = 0
+    var pcScore = 0
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        winnerLabel.font = UIFont.boldSystemFont(ofSize: 34)
+        scoreLabel.font = UIFont.systemFont(ofSize: 28)
+
+        showResult()
     }
     
+    func showResult() {
+        if playerScore > pcScore {
+            winnerLabel.text = "Winner: \(playerName)"
+        } else if pcScore > playerScore {
+            winnerLabel.text = "Winner: PC"
+        } else {
+            winnerLabel.text = "It's a Tie!"
+        }
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        scoreLabel.text = "Score: \(playerScore)"
     }
-    */
-
+    
+    @IBAction func backPressed(_ sender: UIButton) {
+        performSegue(withIdentifier: "backToMenu", sender: self)
+    }
 }
