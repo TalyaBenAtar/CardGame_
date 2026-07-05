@@ -1,17 +1,18 @@
 {
   "images" : [
     {
-      "filename" : "031-eight of diamonds.png",
-      "idiom" : "universal",
-      "scale" : "1x"
+      "filename" : "light.png",
+      "idiom" : "universal"
     },
     {
-      "idiom" : "universal",
-      "scale" : "2x"
-    },
-    {
-      "idiom" : "universal",
-      "scale" : "3x"
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "filename" : "dark.png",
+      "idiom" : "universal"
     }
   ],
   "info" : {

@@ -18,6 +18,11 @@
 		B2C6E0B82FDDC41B006EA099 /* CardGameTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C6E0B72FDDC41B006EA099 /* CardGameTests.swift */; };
 		B2C6E0C22FDDC41B006EA099 /* CardGameUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C6E0C12FDDC41B006EA099 /* CardGameUITests.swift */; };
 		B2C6E0C42FDDC41B006EA099 /* CardGameUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C6E0C32FDDC41B006EA099 /* CardGameUITestsLaunchTests.swift */; };
+		B2E0234B2FFA6D4000A6E176 /* win_sound.wav in Resources */ = {isa = PBXBuildFile; fileRef = B2E023472FFA6D3C00A6E176 /* win_sound.wav */; };
+		B2E0234C2FFA6D4000A6E176 /* card_flip.wav in Resources */ = {isa = PBXBuildFile; fileRef = B2E023482FFA6D3E00A6E176 /* card_flip.wav */; };
+		B2E0234D2FFA6D4000A6E176 /* background_music.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = B2E023492FFA6D3F00A6E176 /* background_music.mp3 */; };
+		B2E0234E2FFA6D4000A6E176 /* lose_sound.wav in Resources */ = {isa = PBXBuildFile; fileRef = B2E0234A2FFA6D3F00A6E176 /* lose_sound.wav */; };
+		B2E023502FFA6E3C00A6E176 /* SoundManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2E0234F2FFA6E3B00A6E176 /* SoundManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +58,11 @@
 		B2C6E0BD2FDDC41B006EA099 /* CardGameUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CardGameUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B2C6E0C12FDDC41B006EA099 /* CardGameUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardGameUITests.swift; sourceTree = "<group>"; };
 		B2C6E0C32FDDC41B006EA099 /* CardGameUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardGameUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		B2E023472FFA6D3C00A6E176 /* win_sound.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = win_sound.wav; sourceTree = "<group>"; };
+		B2E023482FFA6D3E00A6E176 /* card_flip.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = card_flip.wav; sourceTree = "<group>"; };
+		B2E023492FFA6D3F00A6E176 /* background_music.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = background_music.mp3; sourceTree = "<group>"; };
+		B2E0234A2FFA6D3F00A6E176 /* lose_sound.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = lose_sound.wav; sourceTree = "<group>"; };
+		B2E0234F2FFA6E3B00A6E176 /* SoundManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,6 +113,7 @@
 		B2C6E09F2FDDC40E006EA099 /* CardGame */ = {
 			isa = PBXGroup;
 			children = (
+				B2E023462FFA6CCC00A6E176 /* Sounds */,
 				B2C6E0A02FDDC40E006EA099 /* AppDelegate.swift */,
 				B2C6E0A22FDDC40E006EA099 /* SceneDelegate.swift */,
 				B2C6E0A62FDDC40E006EA099 /* Main.storyboard */,
@@ -112,6 +123,7 @@
 				B28D8D552FDEBB9900A03DBD /* StartViewController.swift */,
 				B28D8D572FDEBBC100A03DBD /* GameViewController.swift */,
 				B28D8D592FDEBBE600A03DBD /* ResultViewController.swift */,
+				B2E0234F2FFA6E3B00A6E176 /* SoundManager.swift */,
 			);
 			path = CardGame;
 			sourceTree = "<group>";
@@ -131,6 +143,17 @@
 				B2C6E0C32FDDC41B006EA099 /* CardGameUITestsLaunchTests.swift */,
 			);
 			path = CardGameUITests;
+			sourceTree = "<group>";
+		};
+		B2E023462FFA6CCC00A6E176 /* Sounds */ = {
+			isa = PBXGroup;
+			children = (
+				B2E023492FFA6D3F00A6E176 /* background_music.mp3 */,
+				B2E023482FFA6D3E00A6E176 /* card_flip.wav */,
+				B2E0234A2FFA6D3F00A6E176 /* lose_sound.wav */,
+				B2E023472FFA6D3C00A6E176 /* win_sound.wav */,
+			);
+			path = Sounds;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -238,8 +261,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				B2C6E0AD2FDDC419006EA099 /* LaunchScreen.storyboard in Resources */,
+				B2E0234C2FFA6D4000A6E176 /* card_flip.wav in Resources */,
+				B2E0234E2FFA6D4000A6E176 /* lose_sound.wav in Resources */,
+				B2E0234D2FFA6D4000A6E176 /* background_music.mp3 in Resources */,
 				B2C6E0AA2FDDC419006EA099 /* Assets.xcassets in Resources */,
 				B2C6E0A82FDDC40E006EA099 /* Main.storyboard in Resources */,
+				B2E0234B2FFA6D4000A6E176 /* win_sound.wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -269,6 +296,7 @@
 				B2C6E0A12FDDC40E006EA099 /* AppDelegate.swift in Sources */,
 				B2C6E0A32FDDC40E006EA099 /* SceneDelegate.swift in Sources */,
 				B28D8D5A2FDEBBE600A03DBD /* ResultViewController.swift in Sources */,
+				B2E023502FFA6E3C00A6E176 /* SoundManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

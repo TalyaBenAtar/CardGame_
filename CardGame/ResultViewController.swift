@@ -16,6 +16,7 @@ class ResultViewController: UIViewController {
         scoreLabel.font = UIFont.systemFont(ofSize: 28)
 
         showResult()
+        playResultSound()
     }
     
     func showResult() {
@@ -30,7 +31,17 @@ class ResultViewController: UIViewController {
         scoreLabel.text = "Score: \(playerScore)"
     }
     
-    @IBAction func backPressed(_ sender: UIButton) {
-        performSegue(withIdentifier: "backToMenu", sender: self)
+    func playResultSound() {
+        if playerScore > pcScore {
+            SoundManager.shared.playWinSound()
+        } else {
+            SoundManager.shared.playLoseSound()
+        }
     }
+    
+    @IBAction func backPressed(_ sender: UIButton) {
+//        performSegue(withIdentifier: "backToMenu", sender: self)
+        navigationController?.popToRootViewController(animated: true)
+    }
+    
 }

@@ -22,6 +22,8 @@ class GameViewController: UIViewController {
     var currentRound = 1
     var countdown = 5
     var timer: Timer?
+    var isGamePaused = false
+    var hasGameFinished = false
     
     let maxRounds = 10
     
@@ -85,6 +87,18 @@ class GameViewController: UIViewController {
         Card(imageName: "052-king of hearts", value: 13)
     ]
     
+//    override func viewDidLoad() {
+//        super.viewDidLoad()
+//
+//        playerNameLabel.text = playerName
+//
+//        setupCardImageViews()
+//        updateLabels()
+//        playRound()
+//        startTimer()
+//
+//        timerImageView.image = UIImage(named: "timer_pic")
+//    }
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -96,11 +110,30 @@ class GameViewController: UIViewController {
         startTimer()
         
         timerImageView.image = UIImage(named: "timer_pic")
+        
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(appMovedToBackground),
+            name: UIApplication.didEnterBackgroundNotification,
+            object: nil
+        )
+        
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(appReturnedToForeground),
+            name: UIApplication.willEnterForegroundNotification,
+            object: nil
+        )
+        
+        SoundManager.shared.playBackgroundMusic()
     }
     
     func setupCardImageViews() {
-        playerCardImageView.contentMode = .scaleAspectFill
-        pcCardImageView.contentMode = .scaleAspectFill
+//        playerCardImageView.contentMode = .scaleAspectFill
+//        pcCardImageView.contentMode = .scaleAspectFill
+
+        playerCardImageView.contentMode = .scaleAspectFit
+        pcCardImageView.contentMode = .scaleAspectFit
         
         playerCardImageView.layer.cornerRadius = 8
         pcCardImageView.layer.cornerRadius = 8
@@ -118,7 +151,30 @@ class GameViewController: UIViewController {
                                      repeats: true)
     }
     
+    
+//    @objc func timerTick() {
+//        countdown -= 1
+//        updateLabels()
+//
+//        if countdown == 2 {
+//            showCardBacks()
+//        }
+//
+//        if countdown == 0 {
+//            if currentRound == maxRounds {
+//                timer?.invalidate()
+//                performSegue(withIdentifier: "gameToResult", sender: self)
+//            } else {
+//                currentRound += 1
+//                countdown = 5
+//                playRound()
+//                updateLabels()
+//            }
+//        }
+//    }
     @objc func timerTick() {
+        guard !isGamePaused && !hasGameFinished else { return }
+        
         countdown -= 1
         updateLabels()
         
@@ -128,8 +184,7 @@ class GameViewController: UIViewController {
         
         if countdown == 0 {
             if currentRound == maxRounds {
-                timer?.invalidate()
-                performSegue(withIdentifier: "gameToResult", sender: self)
+                finishGame()
             } else {
                 currentRound += 1
                 countdown = 5
@@ -139,7 +194,17 @@ class GameViewController: UIViewController {
         }
     }
     
+    func finishGame() {
+        hasGameFinished = true
+        timer?.invalidate()
+        timer = nil
+        SoundManager.shared.stopBackgroundMusic()
+        performSegue(withIdentifier: "gameToResult", sender: self)
+    }
+    
     func playRound() {
+        SoundManager.shared.playFlipSound()
+        
         let playerCard = cards.randomElement()!
         let pcCard = cards.randomElement()!
         
@@ -163,12 +228,23 @@ class GameViewController: UIViewController {
         updateLabels()
     }
     
+//    func showCardBacks() {
+//        SoundManager.shared.playFlipSound()
+//
+//        playerCardImageView.image = nil
+//        pcCardImageView.image = nil
+//
+//        playerCardImageView.backgroundColor = .systemBlue
+//        pcCardImageView.backgroundColor = .systemBlue
+//    }
     func showCardBacks() {
-        playerCardImageView.image = nil
-        pcCardImageView.image = nil
+        SoundManager.shared.playFlipSound()
         
-        playerCardImageView.backgroundColor = .systemBlue
-        pcCardImageView.backgroundColor = .systemBlue
+        playerCardImageView.backgroundColor = .clear
+        pcCardImageView.backgroundColor = .clear
+        
+        playerCardImageView.image = UIImage(named: "back_card")
+        pcCardImageView.image = UIImage(named: "back_card")
     }
     
     func updateLabels() {
@@ -195,5 +271,42 @@ class GameViewController: UIViewController {
             resultVC.playerScore = playerScore
             resultVC.pcScore = pcScore
         }
+    }
+    
+    
+    @objc func appMovedToBackground() {
+        pauseGame()
+    }
+
+    @objc func appReturnedToForeground() {
+        resumeGame()
+    }
+
+    func pauseGame() {
+        SoundManager.shared.pauseBackgroundMusic()
+        guard !hasGameFinished else { return }
+        isGamePaused = true
+        timer?.invalidate()
+        timer = nil
+    }
+
+    func resumeGame() {
+        SoundManager.shared.resumeBackgroundMusic()
+        guard !hasGameFinished else { return }
+        guard isGamePaused else { return }
+        
+        isGamePaused = false
+        startTimer()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        pauseGame()
+        SoundManager.shared.pauseBackgroundMusic()
+    }
+
+    deinit {
+        timer?.invalidate()
+        NotificationCenter.default.removeObserver(self)
     }
 }
